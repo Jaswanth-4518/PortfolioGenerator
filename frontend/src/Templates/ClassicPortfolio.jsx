@@ -65,15 +65,17 @@ const ClassicPortfolio = () => {
 
   // Throttled scroll tracking
   useEffect(() => {
-    const throttle = (fn, delay) => {
-      let inProgress = false;
-      return () => {
-        if (inProgress) return;
-        inProgress = true;
-        fn.apply(this, arguments);
-        setTimeout(() => (inProgress = false), delay);
-      };
+  const throttle = (fn, delay) => {
+    let inProgress = false;
+    return (...args) => {
+      if (inProgress) return;
+      inProgress = true;
+      fn(...args);
+      setTimeout(() => {
+        inProgress = false;
+      }, delay);
     };
+  };
 
     const handleScroll = throttle(() => setScrollY(window.scrollY), 100);
     window.addEventListener("scroll", handleScroll);
